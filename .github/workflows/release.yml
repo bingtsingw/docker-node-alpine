@@ -1,0 +1,34 @@
+name: RELEASE
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2.4.0
+
+      - run: echo "TAG=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
+
+      - uses: docker/login-action@v1.10.0
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - uses: docker/build-push-action@v2.7.0
+        with:
+          push: true
+          context: '.'
+          file: '16-pnpm/Dockerfile'
+          tags: 'bingtsingw/node-alpine:16-pnpm-${{ env.TAG }}'
+
+      - uses: docker/build-push-action@v2.7.0
+        with:
+          push: true
+          context: '.'
+          file: '16-slim/Dockerfile'
+          tags: 'bingtsingw/node-alpine:16-slim-${{ env.TAG }}'
