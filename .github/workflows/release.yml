@@ -19,7 +19,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - uses: docker/build-push-action@v2.7.0
+      - uses: docker/build-push-action@v4.2.1
         with:
           push: true
           context: .
@@ -29,7 +29,7 @@ jobs:
             bingtsingw/node-alpine:16-pnpm
             bingtsingw/node-alpine:16-pnpm-${{ env.TAG }}
 
-      - uses: docker/build-push-action@v2.7.0
+      - uses: docker/build-push-action@v4.2.1
         with:
           push: true
           context: .
